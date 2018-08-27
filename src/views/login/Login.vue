@@ -17,7 +17,7 @@
 
 <script>
   
-  import {requestLogin} from '../api/api'
+  import {requestLogin} from '@/api/api'
 
   export default {
     data() {
@@ -64,7 +64,7 @@
                 });
               } else {
                 sessionStorage.setItem('user', JSON.stringify(user));
-                this.$router.push({ path: '/table' });
+                this.$router.push({ path: '/user' });
               }
             });
           } else {
