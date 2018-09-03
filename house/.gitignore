@@ -1,0 +1,13 @@
+/.idea
+/.vscode
+/vendor
+/logs/*
+/data/
+/log
+/public/docs
+/public/dist
+*.log
+.env
+config.json
+SyncToy*
+nohup.out

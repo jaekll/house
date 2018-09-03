@@ -1,0 +1,8 @@
+{
+  "name": "robots",
+  "version": "1.0.0",
+  "description": "robot2项目接口文档",
+  "title": "Robot2",
+  "url" : "http://dev.robot.com/",
+  "sampleUrl":"http://dev.robot.com/"
+}
