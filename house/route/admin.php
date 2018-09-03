@@ -36,7 +36,7 @@ Route::group('admin',function (){
     Route::delete('user/del','admin/user/delete');
     Route::delete('user/dels','admin/user/deletes');
     Route::put('user/enables','admin/user/enables');
-    Route::get('user/list','admin/Rules/index');
+    Route::get('user/list','admin/user/index');
     //菜单
     Route::get('menus/read','admin/menus/read');
     Route::post('menus/save','admin/menus/save');

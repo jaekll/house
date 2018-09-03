@@ -1,13 +1,15 @@
 <?php
  namespace app\admin\controller;
 
+use think\Request;
+
 class Rules extends Base
 {
 
-    public function index()
+    public function index(Request $request)
     {   
         $ruleModel = model('Rule');
-        $type = !empty($this->param['type'])?$this->param'type']: '';
+        $type = empty($request->param['type']) ? '' : $request->param['type'];
         $data = $ruleModel->getDataList($type);
         return $this->ok($data);
     }

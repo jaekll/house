@@ -48,7 +48,7 @@
 <script>
     import leftMenu from '@/views/common/leftMenu'
     export default {
-        components:{
+         components:{
             leftMenu
         },
         data() {
@@ -57,6 +57,8 @@
                 collapsed:false,
                 sysUserName: '',
                 sysUserAvatar: '',
+                menuData:[],
+                menu:null,
                 form: {
                     name: '',
                     region: '',
@@ -70,17 +72,6 @@
             }
         },
         methods: {
-            onSubmit() {
-                console.log('submit!');
-            },
-            handleopen() {
-                console.log('handleopen');
-            },
-            handleclose() {
-                console.log('handleclose');
-            },
-            handleselect: function (a, b) {
-            },
             //退出登录
             logout: function () {
                 var _this = this;
@@ -93,24 +84,46 @@
 
                 });
 
-
-            },
-            //折叠导航栏
-            collapse:function(){
-                this.collapsed=!this.collapsed;
             },
             showMenu(i,status){
                 this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-'+i)[0].style.display=status?'block':'none';
             }
         },
         mounted() {
-            var user = sessionStorage.getItem('user');
-            if (user) {
-                user = JSON.parse(user);
-                this.sysUserName = user.name || '';
-                this.sysUserAvatar = user.avatar || '';
-            }
+            // var user = sessionStorage.getItem('user');
+            // if (user) {
+            //     user = JSON.parse(user);
+            //     this.sysUserName = user.name || '';
+            //     this.sysUserAvatar = user.avatar || '';
+            // }
 
+        },
+        created(){
+            let authkey = Lockr.get('authKey')
+            let sessionId = Lockr.get('sessionId')
+            console.log(authkey)
+            if(!authkey||!sessionId){
+                this.$message({
+                    message:'未登录',
+                    type:'warning'
+                })
+                setTimeout(()=>{
+                    this.$router.replace('/login')
+                },1000)
+                return
+            }
+            let menus = Lockr.get('menus')
+            this.menu = this.$router.meta.menu
+            this.module = this.$router.meta.module
+            this.topMenu = menus
+            (menus).foreach((res)=>{
+                if(res.module == this.module){
+                    this.menuData = res.childer
+                    res.selected = true
+                }else{
+                    res.selected = false
+                }
+            })
         }
     }
 

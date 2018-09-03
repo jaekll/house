@@ -34,7 +34,29 @@
 	export default{
 		props:['menuData','menu'],
 		data(){
-			return{}
-		}
+			return{
+				collapsed:false
+			}
+		},
+		methods: {
+            onSubmit() {
+                console.log('submit!');
+            },
+            handleopen() {
+                console.log('handleopen');
+            },
+            handleclose() {
+                console.log('handleclose');
+            },
+            handleselect: function (a, b) {
+            },
+            //折叠导航栏
+            collapse:function(){
+                this.collapsed=!this.collapsed;
+            },
+            showMenu(i,status){
+                this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-'+i)[0].style.display=status?'block':'none';
+            }
+        }
 	}
 </script>

@@ -9,13 +9,10 @@ namespace app\admin\controller;
 
 
 use app\admin\model\Admin;
-use app\admin\service\Rbac;
 use think\exception\HttpException;
-use think\exception\ValidateException;
 use think\facade\Log;
 use think\facade\Request;
 use \app\admin\validate\Account as ValidateAccount;
-use think\facade\Validate;
 
 class Account extends Base {
 
@@ -27,16 +24,16 @@ class Account extends Base {
 
     public function login(){
         $userModel = model('User');
-        $param = $this->param;
+        $param = Request::param();
         $username = $param['username'];
         $password = $param['password'];
         $verifyCode = !empty($param['verifyCode'])? $param['verifyCode']: '';
         $isRemember = !empty($param['isRemember'])? $param['isRemember']: '';
         $data = $userModel->login($username, $password, $verifyCode, $isRemember);
         if (!$data) {
-            return json(['error' => $userModel->getError()]);
+            return $this->err($userModel->getError());
         } 
-        return json(['data' => $data]);
+        return $this->ok($data);
     }
 
     public function relogin()

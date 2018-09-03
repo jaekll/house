@@ -14,6 +14,7 @@ namespace think;
 
 header("Access-Control-Allow-Origin:*");
 header('Access-Control-Allow-Headers:token');
+header('Access-Control-Allow-Headers:Content-Type');
 header('Access-Control-Allow-Methods:PUT, GET, POST, DELETE, OPTIONS');
 
 if($_SERVER['REQUEST_METHOD'] == 'OPTIONS'){

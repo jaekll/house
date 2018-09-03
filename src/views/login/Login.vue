@@ -10,7 +10,7 @@
     <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
     <el-form-item style="width:100%;">
       <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit2" :loading="logining">登录</el-button>
-      <el-button @click.native.prevent="handleReset2">重置</el-button>
+      <!--<el-button @click.native.prevent="handleReset2">重置</el-button>-->
     </el-form-item>
   </el-form>
 </template>
@@ -45,26 +45,33 @@
         this.$refs.ruleForm2.resetFields();
       },
       handleSubmit2(ev) {
-        var _this = this;
+
         this.$refs.ruleForm2.validate((valid) => {
           if (valid) {
-            //_this.$router.replace('/table');
             this.logining = true;
-            //NProgress.start();
-            var loginParams = { username: this.ruleForm2.account, password: this.ruleForm2.checkPass };
-            //todo login
-             requestLogin(loginParams).then(data => {
+
+            let data = {}
+            data.username = this.ruleForm2.account;
+            data.password = this.ruleForm2.checkPass;
+            if(this.checked){
+                data.isRemember = 1;
+            }else{
+                data.isRemember = 0;
+            }
+
+            console.log('login');
+             requestLogin(data).then(res => {
               this.logining = false;
-              //NProgress.done();
-              let { msg, code, user } = data;
+              console.log(res);
+              let { msg, code, data } = res;
               if (code !== 200) {
                 this.$message({
                   message: msg,
                   type: 'error'
                 });
               } else {
-                sessionStorage.setItem('user', JSON.stringify(user));
-                this.$router.push({ path: '/user' });
+                this.resetCommonData(data);
+                this.$router.push({ path: '/' });
               }
             });
           } else {
@@ -72,7 +79,39 @@
             return false;
           }
         });
-      }
+      },
+      resetCommonData(data) {
+          //sessionStorage.setItem('user',JSON.stringify(data.userInfo))
+            (data.menusList).forEach((res, key) => {
+                if (key == 0) {
+                    res.selected = true
+                } else {
+                    res.selected = false
+                }
+            })
+            Lockr.set('menus', data.menusList)              // 菜单数据
+            Lockr.set('authKey', data.authKey)              // 权限认证
+            Lockr.set('rememberKey', data.rememberKey)      // 记住密码的加密字符串
+            Lockr.set('authList', data.authList)            // 权限节点列表
+            Lockr.set('userInfo', data.userInfo)            // 用户信息
+            Lockr.set('sessionId', data.sessionId)          // 用户sessionid
+            console.log(Lockr.get('authKey'))
+            //window.axios.defaults.headers.authKey = Lockr.get('authKey')
+            let routerUrl = ''
+            if (data.menusList[0].url) {
+                routerUrl = data.menusList[0].url
+            } else {
+                routerUrl = data.menusList[0].children[0].children[0].url
+            }
+            setTimeout(() => {
+                let path = this.$route.path
+                if (routerUrl != path) {
+                    this.$router.replace(routerUrl)
+                } else {
+                    // _g.shallowRefresh(this.$route.name)
+                }
+            }, 1000)
+        },
     }
   }
 </script>

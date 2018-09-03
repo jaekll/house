@@ -65,6 +65,25 @@
 	</div>
 </template>
 
+<script>
+	import {getMenuList} from '../../../api/api';
+	export default {
+		data(){
+
+		},
+		mounted(){
+			console.log('menu')
+			let param = {
+					page: this.page,
+					name: this.filters.name
+			};
+			this.listLoading = true;
+			getMenuList(param).then(res=>{
+				this.tableData = res.data
+			})
+		}
+	}
+</script>
 <style>
 	
 </style>
