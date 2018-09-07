@@ -15,7 +15,7 @@
 			width="50">
 			</el-table-column>
 			<el-table-column
-			prop="p_title"
+			prop="html"
 			label="节点结构"
 			width="150">
 			</el-table-column>
@@ -64,4 +64,38 @@
 	</div>
 </template>
 
+<script>
+	import btnGroup from '../../common/btnGroup.vue';
+	import {getRuleList} from '../../../api/api';
+
+	export default {
+		components:{
+            btnGroup
+        },
+		data(){
+			return{
+				tableData:[],
+				multipleSelection:[]
+			}	
+		},
+		methods:{
+			selectItem(val){
+				this.multipleSelection = val
+			}
+		},
+		mounted(){
+			console.log('rules')
+			let param = {}
+			// let param = {
+			// 		page: this.page,
+			// 		name: this.filters.name
+			// };
+			// this.listLoading = true;
+			getRuleList(param).then(res=>{
+				console.log(res.data)
+				this.tableData = res.data
+			})
+		}
+	}
+</script>
  

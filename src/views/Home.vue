@@ -48,15 +48,13 @@
 <script>
     import leftMenu from '@/views/common/leftMenu'
     export default {
-         components:{
-            leftMenu
-        },
+         
         data() {
             return {
                 sysName:'管理后台',
                 collapsed:false,
                 sysUserName: '',
-                sysUserAvatar: '',
+                sysUserAvatar: 'http://localhost/uploads/index/20180731/1da8b0b59684a3f621ca58fed2affda0.gif',
                 menuData:[],
                 menu:null,
                 form: {
@@ -113,17 +111,24 @@
                 return
             }
             let menus = Lockr.get('menus')
-            this.menu = this.$router.meta.menu
-            this.module = this.$router.meta.module
+            //this.menu = this.$router.meta.menu
+            //this.module = this.$router.meta.module
             this.topMenu = menus
-            (menus).foreach((res)=>{
-                if(res.module == this.module){
-                    this.menuData = res.childer
-                    res.selected = true
-                }else{
-                    res.selected = false
-                }
-            })
+            //menus.forEach((res)=>{
+                // if(res.module == this.module){
+                //     this.menuData = res.children
+                //     res.selected = true
+                // }else{
+                //     res.selected = false
+                // }
+               // this.menuData = res.children
+            //})
+            this.menuData = menus
+            console.log('home')
+            console.log(this.menuData[0])
+        },
+        components:{
+            leftMenu
         }
     }
 

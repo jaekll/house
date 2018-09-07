@@ -17,7 +17,7 @@
 			width="50">
 			</el-table-column>
 			<el-table-column
-			prop="p_title"
+			prop="html"
 			label="上级菜单"
 			width="150">
 			</el-table-column>
@@ -26,7 +26,7 @@
 			label="标题">
 			</el-table-column>
 			<el-table-column
-			prop="menu_type"
+			prop="level"
 			label="类型"
 			width="200">
 			</el-table-column>
@@ -35,7 +35,7 @@
 			label="状态"
 			width="100">
 				<div>
-					{{ row.status | status}}
+					{{ row.pid | pid}}
 				</div>
 			</el-table-column>
 			<el-table-column
@@ -66,19 +66,34 @@
 </template>
 
 <script>
+    import btnGroup from '../../common/btnGroup.vue';
 	import {getMenuList} from '../../../api/api';
-	export default {
-		data(){
 
+	export default {
+		components:{
+            btnGroup
+        },
+		data(){
+			return{
+				tableData:[],
+				multipleSelection:[]
+			}	
+		},
+		methods:{
+			selectItem(val){
+				this.multipleSelection = val
+			}
 		},
 		mounted(){
 			console.log('menu')
-			let param = {
-					page: this.page,
-					name: this.filters.name
-			};
-			this.listLoading = true;
+			let param = {}
+			// let param = {
+			// 		page: this.page,
+			// 		name: this.filters.name
+			// };
+			// this.listLoading = true;
 			getMenuList(param).then(res=>{
+				console.log(res.data)
 				this.tableData = res.data
 			})
 		}

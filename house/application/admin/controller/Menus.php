@@ -1,13 +1,15 @@
 <?php
 namespace app\admin\controller;
 
+use think\facade\Request;
+
 class Menus extends Base
 {
     
     public function index()
     {   
         $menuModel = model('Menu');
-        $param = $this->param;
+        $param = Request::param();
         $data = $menuModel->getDataList();
         return $this->ok($data);
     }
@@ -36,7 +38,7 @@ class Menus extends Base
         $menuModel = model('Menu');
         $data = $menuModel->updateDataById($this->param, $this->param['id']);
         if (!$data) {
-            return return $this->err($menuModel->getError());
+             return $this->err($menuModel->getError());
         } 
         return $this->ok();
     }
@@ -47,7 +49,7 @@ class Menus extends Base
         $param = $this->param;
         $data = $menuModel->delDataById($param['id'], true);       
         if (!$data) {
-            return $this->err($menuModel->getError())
+            return $this->err($menuModel->getError());
         } 
         return $this->ok();
     }
@@ -58,7 +60,7 @@ class Menus extends Base
         $param = $this->param;
         $data = $menuModel->delDatas($param['ids'], true);  
         if (!$data) {
-            return $this->err($menuModel->getError())
+            return $this->err($menuModel->getError());
         } 
         return $this->ok();
     }
@@ -69,9 +71,8 @@ class Menus extends Base
         $param = $this->param;
         $data = $menuModel->enableDatas($param['ids'], $param['status'], true);  
         if (!$data) {
-            return $this->err($menuModel->getError())
+            return $this->err($menuModel->getError());
         } 
        return $this->ok();
     }
 }
- 

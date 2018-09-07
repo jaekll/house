@@ -14,7 +14,7 @@ export const getUserList = params => {
 	return axios.get(`${base}/admin/user/list`, { params: params }); 
 };
 
-export const getUserListPage = params => { return axios.get(`${base}/admin/user/list`, { params: params }); };
+export const getUserListPage = params => { return axios.get(`${base}/admin/user/list`, { params: params }).then(res=>res.data); };
 
 export const removeUser = params => { return axios.get(`${base}/admin/user/remove`, { params: params }); };
 
@@ -27,5 +27,11 @@ export const addUser = params => { return axios.get(`${base}/admin/user/add`, { 
 *菜单管理
 **/
 export const getMenuList = params =>{
-	return axios.get(`$base/admin/menu/list`,{params:params});
+	return axios.get(`${base}/admin/menus/list`,{params:params}).then(res=>res.data);
 };
+/*
+*权限管理
+**/
+export const getRuleList = params=>{
+	return axios.get(`${base}/admin/rules/list`,{params:params}).then(res=>res.data)
+}
